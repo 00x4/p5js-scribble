@@ -24,8 +24,9 @@ function draw() {
   const move = (abs(pmouseX - mouseX) + abs(pmouseY - mouseY)) / 2;
   if (move > MOUSE_MOVE_THRESHOLD) {
     _ripples.push(newRipple(pmouseX, pmouseY, random(100, 300)));
+  } else if (random(100) > 90) {
+    _ripples.push(newRipple(random(windowWidth), random(windowHeight), random(100, 300)));
   }
-  //_ripples.push(newRipple(random(windowWidth), random(windowHeight), random(100, 300)));
 }
 
 const newRipple = (x, y, diameter) => {
