@@ -1,35 +1,28 @@
 const
   DELAY_MS = 50,
   MOUSE_MOVE_THRESHOLD = 10,
-  LIFE_LIMIT = 30;
+  LIFE_LIMIT = 10;
 
 var
-  _ms = 0,
   _ripples = [];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  _ms = millis();
 }
 
-
 function draw() {
-  if (millis() - _ms < DELAY_MS) {
-    return;
-  }
-  _ms = millis();
   background(40, 40, 40);
 
   drawRipples();
   const move = (abs(pmouseX - mouseX) + abs(pmouseY - mouseY)) / 2;
   if (move > MOUSE_MOVE_THRESHOLD) {
-    _ripples.push(newRipple(pmouseX, pmouseY, random(100, 300)));
-  } else if (random(100) > 90) {
-    _ripples.push(newRipple(random(windowWidth), random(windowHeight), random(100, 300)));
+    _ripples.push(newRipple(pmouseX, pmouseY, random(100, 300), false));
+  } else if (random(100) > 70) {
+    _ripples.push(newRipple(random(width), random(height), random(100, 300), false));
   }
 }
 
-const newRipple = (x, y, diameter) => {
+const newRipple = (x, y, diameter, noOrbit) => {
   var
     age = 0,
     orbitStartAngle = random(360),
@@ -37,7 +30,7 @@ const newRipple = (x, y, diameter) => {
 
   const step = () => {
     diameter += age;
-    ++age;
+    age += 0.2;
   };
 
   const isAlive = () => {
@@ -48,12 +41,14 @@ const newRipple = (x, y, diameter) => {
     if (!onlyOrbit) {
       drawBody();
     }
-    drawOrbit();
+    if (!noOrbit) {
+      drawOrbit();
+    }
   };
 
   const drawBody = () => {
     noFill();
-    stroke(200, 200, 200, 120 - age + 10);
+    stroke(200, 200, 200, 120 - min(120, age * 10));
     for (var child = diameter; child > 0; child -= 100) {
       ellipse(x, y, child, child);
     }
