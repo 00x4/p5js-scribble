@@ -1,4 +1,4 @@
-var
+let
   _dotColor,
   _isEllipse,
   _counter;
@@ -16,7 +16,6 @@ function setup() {
 }
 
 function draw() {
-  const size = max(10, random(80));
   _dotColor = changeColorLittleBit(_dotColor);
   fill(_dotColor);
   stroke(150);
@@ -24,7 +23,7 @@ function draw() {
   if (random(100) < 50) {
     _isEllipse = !_isEllipse;
   }
-  drawCloud(size);
+  drawCloud();
   if (_counter ++ > 10) {
     drawSmoke();
     _counter = 0;
@@ -43,14 +42,11 @@ const changeColorLittleBit = (c) => {
   );
 };
 
-const drawCloud = (size) => {
-  if (random(100) < 50) {
-    blendMode(BLEND);
-  } else {
-    blendMode(MULTIPLY);
-  }
-  for (var i = 0; i < 50; ++i) {
+const drawCloud = () => {
+  blendMode(random(100) < 50 ? BLEND : MULTIPLY);
+  for (let i = 0; i < 50; ++i) {
     const
+      size = max(10, random(80)),
       x = random(width),
       y = random(height);
     if (_isEllipse) {
