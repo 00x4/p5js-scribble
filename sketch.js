@@ -1,5 +1,7 @@
+const scale = 1;
+
 function setup() {
-  createCanvas(1280, 720);
+  createCanvas(1280 * scale, 720 * scale);
 }
 
 var drawCompleted = false;
@@ -17,7 +19,7 @@ const doDraw = function() {
   noStroke();
 
   // vertical lines
-  for (var i = 0, until = width * 0.2; i < until; ++i) {
+  for (var i = 0; i < 250; ++i) {
     const n = random(1),
       alpha = random(70);
     if (n < 0.2) {
@@ -30,7 +32,7 @@ const doDraw = function() {
     } else {
       Colors.Amethyst.stroke(alpha);
     }
-    strokeWeight(random(3));
+    strokeWeight(random(3) * scale);
     const x = random(width);
     line(x, 0, x + negativeHalf(random(30)), height);
   }
@@ -38,8 +40,8 @@ const doDraw = function() {
   noStroke();
   blendMode(MULTIPLY);
   for (var i = 0; i < 200; ++i) {
-    drawFlower(290);
-    drawStar(470);
+    drawFlower(290 * scale);
+    drawStar(470 * scale);
   }
 
   // triangles
@@ -49,16 +51,16 @@ const doDraw = function() {
   for (var i = 0; i < triangleNum; ++i) {
     Colors.Deepsea.fill(random(255));
     const
-      x1 = random(width + 30) - 30,
-      x2 = x1 + max(random(50), 10);
-    triangle(x1, 0, x2, 0, x1 + (x2 - x1) / 2, max(100, random(180)));
+      x1 = random(width + 30 * scale) - 30 * scale,
+      x2 = x1 + max(random(50 * scale), 10 * scale);
+    triangle(x1, 0, x2, 0, x1 + (x2 - x1) / 2, max(100 * scale, random(180 * scale)));
   }
   for (var i = 0; i < triangleNum; ++i) {
     Colors.Deepsea.fill(random(255));
     const
-      x1 = random(width + 30) - 30,
-      x2 = x1 + max(random(50), 10);
-    triangle(x1, height, x2, height, x1 + (x2 - x1) / 2, height - max(100, random(180)));
+      x1 = random(width + 30 * scale) - 30 * scale,
+      x2 = x1 + max(random(50 * scale), 10 * scale);
+    triangle(x1, height, x2, height, x1 + (x2 - x1) / 2, height - max(100 * scale, random(180 * scale)));
   }
 
   // top / bottom bubbles
@@ -66,9 +68,9 @@ const doDraw = function() {
   blendMode(BLEND);
   Colors.Coconut.fill();
   for (var i = 0; i < 30; ++i) {
-    const size = random(30);
-    ellipse(random(width), 20 + negativeHalf(random(20)), size, size);
-    ellipse(random(width), height - 20 + negativeHalf(random(20)), size, size);
+    const size = random(30 * scale);
+    ellipse(random(width), 20 * scale + negativeHalf(random(20 * scale)), size, size);
+    ellipse(random(width), height - 20 * scale + negativeHalf(random(20 * scale)), size, size);
   }
 };
 
@@ -86,7 +88,7 @@ const drawFlower = function(baseY) {
   } else {
     Colors.Sky.fill(alpha);
   }
-  flower(random(width), baseY + negativeHalf(random(40)), random(70), random(360));
+  flower(random(width), baseY + negativeHalf(random(40)), random(70 * scale), random(360));
 };
 
 const flower = function(centerX, centerY, size, angle) {
@@ -108,9 +110,9 @@ const flower = function(centerX, centerY, size, angle) {
 
 const drawStar = function(baseY) {
   Colors.Cocoa.fill(random(255));
-  const len = max(10, random(70));
+  const len = max(10 * scale, random(70 * scale));
   push();
-  translate(random(width), baseY + negativeHalf(random(30)));
+  translate(random(width), baseY + negativeHalf(random(30 * scale)));
   rotate(radians(random(360)));
   star(0, 0, len, len / 5, randomApex());
   pop();
