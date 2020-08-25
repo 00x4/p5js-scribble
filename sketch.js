@@ -14,7 +14,8 @@ function draw() {
   if (drawCompleted) {
     return;
   }
-  Colors.Chocolate.background();
+  //Colors.Chocolate.background();
+  background(Colors.Sky.hex);
   for (let i = 0; i < LAYERS; ++i) {
     drawIt();
   }
