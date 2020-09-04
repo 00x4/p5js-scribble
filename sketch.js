@@ -1,65 +1,56 @@
 let
-  _dotColor,
-  _isEllipse,
-  _counter;
+  objs_ = [],
+  colorIndex_ = 0;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(255);
-  stroke(150);
-  fill(255);
-  rectMode(CENTER);
   ellipseMode(CENTER);
-  _dotColor = color(random(230, 255), random(230, 255), random(230, 255));
-  _isEllipse = false;
-  _counter = 0;
+  //noStroke();
+  blendMode(BLEND);
+  for (let i = 0, until = 50; i < until; ++i) {
+    objs_.push(mkObj(random(windowWidth), random(windowHeight)));
+  }
 }
 
 function draw() {
-  _dotColor = changeColorLittleBit(_dotColor);
-  fill(_dotColor);
-  stroke(150);
-  strokeWeight(1);
-  if (random(100) < 50) {
-    _isEllipse = !_isEllipse;
+  background(Colors.Drizzly.hex);
+  if (frameCount % 20 === 0) {
+    colorIndex_ = parseInt(random(5));
   }
-  drawCloud();
-  if (_counter ++ > 10) {
-    drawSmoke();
-    _counter = 0;
+  for (let i = 0, len = objs_.length; i < len; ++i) {
+    const x = objs_[i];
+    x.draw(colorIndex_);
   }
 }
 
-const negativeHalf = function(v) {
-  return (random(1) > 0.5) ? v : v * -1;
-};
-
-const changeColorLittleBit = (c) => {
-  return color(
-    min(max(red(c) + random(-3, 3), 230), 255),
-    min(max(green(c) + random(-3, 3), 230), 255),
-    min(max(blue(c) + random(-3, 3), 230), 255)
-  );
-};
-
-const drawCloud = () => {
-  blendMode(random(100) < 50 ? BLEND : MULTIPLY);
-  for (let i = 0; i < 50; ++i) {
-    const
-      size = max(10, random(80)),
-      x = random(width),
-      y = random(height);
-    if (_isEllipse) {
+const mkObj = (x, y) => {
+  const
+    MAX_SIZE = min(windowWidth, windowHeight) * 2,
+    C = [
+      random([Colors.Strawberry, Colors.Coral, Colors.Peach]),
+      random([Colors.Sky, Colors.Larimar]),
+      random([Colors.Tangerine, Colors.Apricot, Colors.Omelet]),
+      random([Colors.Amethyst, Colors.Violet, Colors.Sodapop]),
+      random([Colors.Charcoal, Colors.Drizzly, Colors.Hibiscus])
+    ];
+  let
+    size = random(MAX_SIZE),
+    expanding = true;
+  return {
+    draw: function(colorIndex) {
+      if (random(100) > 30) {
+        size += random(300) * (expanding ? 1 : -1);
+        if (expanding && size >= MAX_SIZE) {
+          expanding = false;
+        } else if (!expanding && size <= 0) {
+          size = 0;
+          expanding = true;
+        }
+      }
+      strokeWeight(random(200));
+      stroke(C[colorIndex].hex);
+      C[colorIndex].fill(150);
       ellipse(x, y, size, size);
-    } else {
-      rect(x, y, size, size);
     }
-  }
-};
-
-const drawSmoke = () => {
-  blendMode(BLEND);
-  fill(color(255, 30));
-  noStroke();
-  rect(width / 2, height / 2, width, height);
+  };
 };
