@@ -5,17 +5,16 @@ let
 function setup() {
   createCanvas(windowWidth, windowHeight);
   ellipseMode(CENTER);
-  //noStroke();
   blendMode(BLEND);
   for (let i = 0, until = 50; i < until; ++i) {
-    objs_.push(mkObj(random(windowWidth), random(windowHeight)));
+    objs_.push(mkObj());
   }
 }
 
 function draw() {
   background(Colors.Drizzly.hex);
   if (frameCount % 20 === 0) {
-    colorIndex_ = parseInt(random(5));
+    colorIndex_ = parseInt(random(7));
   }
   for (let i = 0, len = objs_.length; i < len; ++i) {
     const x = objs_[i];
@@ -23,7 +22,7 @@ function draw() {
   }
 }
 
-const mkObj = (x, y) => {
+const mkObj = () => {
   const
     MAX_SIZE = min(windowWidth, windowHeight) * 2,
     C = [
@@ -31,11 +30,22 @@ const mkObj = (x, y) => {
       random([Colors.Sky, Colors.Larimar]),
       random([Colors.Tangerine, Colors.Apricot, Colors.Omelet]),
       random([Colors.Amethyst, Colors.Violet, Colors.Sodapop]),
-      random([Colors.Charcoal, Colors.Drizzly, Colors.Hibiscus])
+      random([Colors.Charcoal, Colors.Drizzly, Colors.Hibiscus]),
+      random([Colors.Moss, Colors.Matcha, Colors.Mustard]),
+      random([Colors.Morpho, Colors.Jadevine, Colors.Chocolate])
     ];
   let
+    x, y,
     size = random(MAX_SIZE),
     expanding = true;
+
+  const resetPos = () => {
+    x = random(windowWidth);
+    y = random(windowHeight);
+  };
+
+  resetPos();
+
   return {
     draw: function(colorIndex) {
       if (random(100) > 30) {
@@ -46,6 +56,9 @@ const mkObj = (x, y) => {
           size = 0;
           expanding = true;
         }
+      }
+      if (random(100) > 90) {
+        resetPos();
       }
       strokeWeight(random(200));
       stroke(C[colorIndex].hex);

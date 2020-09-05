@@ -39,11 +39,15 @@ var star = function(centerX, centerY, radiusLong, radiusShort, apex) {
   pop();
 };
 
-const negativeHalf = function(v) {
+const randomBoolean = () => {
+  return random([true, false]);
+};
+
+const negativeHalf = (v) => {
   return (random(1) > 0.5) ? v : v * -1;
 };
 
-const Color = function(hex) {
+const Color = (hex) => {
   if (hex.startsWith("#")) {
     hex = hex.substring(1);
   }
